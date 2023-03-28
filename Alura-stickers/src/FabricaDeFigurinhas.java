@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
@@ -14,16 +16,8 @@ public class FabricaDeFigurinhas {
     String nomeDoArquivo
   ) throws Exception {
     // leitura da imagem
-    // BufferedImage original = ImageIO.read(
-    //   new File("Alura-stickers/entrada/filme.jpg")
-    // );
 
-    // InputStream inputStream = new URL(
-    //   "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopTVs_1.jpg"
-    // )
-    //   .openStream();
     BufferedImage original = ImageIO.read(inputStream);
-    // criar nova imagem em memória com transparência e com tamanho novo
 
     int largura = original.getWidth();
     int altura = original.getHeight();
@@ -47,7 +41,13 @@ public class FabricaDeFigurinhas {
 
     // escrever uma frase na nova imagem
 
-    graphics.drawString(textoDaImagem, 100, novaAltura - 100);
+    String texto = textoDaImagem;
+    FontMetrics fontMetrics = graphics.getFontMetrics();
+    Rectangle2D retangulo = fontMetrics.getStringBounds(texto, graphics);
+    int larguraDoTexto = (int) retangulo.getWidth();
+    int posicaoTextoX = (largura - larguraDoTexto) / 2;
+
+    graphics.drawString(texto, posicaoTextoX, novaAltura - 100);
 
     // escrever a nova imagem em um arquivo
     ImageIO.write(
