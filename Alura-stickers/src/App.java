@@ -13,15 +13,16 @@ public class App {
 
   public static void main(String[] args) throws Exception {
     Properties prop = new Properties();
-    String filePath = "Alura-stickers/resources/config.properties";
-    InputStream input = new FileInputStream(filePath);
+    InputStream input = new FileInputStream(
+      "Alura-stickers/resources/config.properties"
+    );
     prop.load(input);
     // fazer uma conexão HTTP e buscar os top 250 filmes
 
     // String url =
     //   "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
 
-    String url = prop.getProperty("API_KEY");
+    String url = prop.getProperty("TOP_MOVIES");
 
     URI endereco = URI.create(url); // o que é URI?
     HttpClient client = HttpClient.newHttpClient();
