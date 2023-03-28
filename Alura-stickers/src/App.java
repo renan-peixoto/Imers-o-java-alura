@@ -1,3 +1,5 @@
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -5,16 +7,22 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 public class App {
 
   public static void main(String[] args) throws Exception {
+    Properties prop = new Properties();
+    String filePath = "Alura-stickers/resources/config.properties";
+    InputStream input = new FileInputStream(filePath);
+    prop.load(input);
     // fazer uma conexão HTTP e buscar os top 250 filmes
 
-    String url =
-      "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
+    // String url =
+    //   "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
 
-    // String url = System.getenv("IMDB_API_KEY");
+    String url = prop.getProperty("API_KEY");
+
     URI endereco = URI.create(url); // o que é URI?
     HttpClient client = HttpClient.newHttpClient();
     HttpRequest request = HttpRequest.newBuilder(endereco).GET().build();
