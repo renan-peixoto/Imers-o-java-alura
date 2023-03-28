@@ -1,6 +1,7 @@
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -12,6 +13,7 @@ import java.util.Properties;
 public class App {
 
   public static void main(String[] args) throws Exception {
+    // Pegar as info do arquivo properties
     Properties prop = new Properties();
     InputStream input = new FileInputStream(
       "Alura-stickers/resources/config.properties"
@@ -19,10 +21,7 @@ public class App {
     prop.load(input);
     // fazer uma conexão HTTP e buscar os top 250 filmes
 
-    // String url =
-    //   "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
-
-    String url = prop.getProperty("TOP_MOVIES");
+    String url = prop.getProperty("TOP_TV");
 
     URI endereco = URI.create(url); // o que é URI?
     HttpClient client = HttpClient.newHttpClient();
@@ -35,24 +34,23 @@ public class App {
     // extrair só os dados que interessam (titulo, poster, classificação)
     JsonParser parser = new JsonParser();
     List<Map<String, String>> listaDeFilmes = parser.parse(body);
-    // Exibit e manipular os dados
+    // Exibir e manipular os dados
+    var fabricaDeFigurinhas = new FabricaDeFigurinhas();
 
     for (Map<String, String> filme : listaDeFilmes) {
-      System.out.println(
-        "\u001b[37m \u001b[44mTítulo:\u001b[m " + filme.get("title") + "\n"
-      );
+      String urlImage = filme.get("image");
+      String titulo = filme.get("title");
+
+      InputStream inputStream = new URL(urlImage).openStream();
+      String nomeArquivo = titulo + ".png";
+      String textoDaImagem = "Melhor Série";
+
+      fabricaDeFigurinhas.criar(inputStream, textoDaImagem, nomeArquivo);
 
       System.out.println(
-        "\u001b[37m \u001b[44mCapa:\u001b[m " + filme.get("image") + "\n"
+        "\u001b[37m \u001b[44mTítulo:\u001b[m " + titulo + "\n"
       );
-      System.out.println(
-        "\u001b[37m \u001b[44mClassificação:\u001b[m " + filme.get("imDbRating")
-      );
-      double classificacao = Double.parseDouble(filme.get("imDbRating"));
-      int numeroEstrelas = (int) classificacao;
-      for (int i = 0; i <= numeroEstrelas; i++) {
-        System.out.print("⭐");
-      }
+
       System.out.println("\n");
     }
   }
