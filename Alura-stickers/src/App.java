@@ -1,30 +1,20 @@
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
-import java.util.Properties;
 
 public class App {
 
   public static void main(String[] args) throws Exception {
-    // Pegar as info do arquivo properties
-    Properties prop = new Properties();
-    InputStream input = new FileInputStream(
-      "Alura-stickers/resources/config.properties"
-    );
-    prop.load(input);
-    // fazer uma conexão HTTP e buscar os top 250 filmes
+    API api = API.TOP_MOVIES;
 
-    String url = prop.getProperty("TOP_MOVIES");
+    String url = api.getUrl();
+    ExtratorDeConteudo extrator = api.getExtrator();
 
     var http = new ClienteHttp();
     String json = http.buscarDado(url);
 
     // Exibir e manipular os dados
-    ExtratorDeConteudo extratorDeConteudoIMDB = new ExtratorDeConteudoIMDB();
-    List<Conteudo> conteudos = extratorDeConteudoIMDB.extrairConteudos(json);
-    // ExtratorDeConteudo extratorDeConteudoNasa = new ExtratorDeConteudoNasa();
-    // List<Conteudo> conteudos = extratorDeConteudoNasa.extrairConteudos(json);
+    List<Conteudo> conteudos = extrator.extrairConteudos(json);
 
     var fabricaDeFigurinhas = new FabricaDeFigurinhas();
 
