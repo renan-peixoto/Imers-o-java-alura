@@ -15,16 +15,16 @@ public class App {
     prop.load(input);
     // fazer uma conexão HTTP e buscar os top 250 filmes
 
-    String url = prop.getProperty("NASA_KEY");
+    String url = prop.getProperty("TOP_MOVIES");
 
     var http = new ClienteHttp();
     String json = http.buscarDado(url);
 
     // Exibir e manipular os dados
-    // ExtratorDeConteudo extratorDeConteudoIMDB = new ExtratorDeConteudoIMDB();
-    // List<Conteudo> conteudos = extratorDeConteudoIMDB.extrairConteudos(json);
-    ExtratorDeConteudo extratorDeConteudoNasa = new ExtratorDeConteudoNasa();
-    List<Conteudo> conteudos = extratorDeConteudoNasa.extrairConteudos(json);
+    ExtratorDeConteudo extratorDeConteudoIMDB = new ExtratorDeConteudoIMDB();
+    List<Conteudo> conteudos = extratorDeConteudoIMDB.extrairConteudos(json);
+    // ExtratorDeConteudo extratorDeConteudoNasa = new ExtratorDeConteudoNasa();
+    // List<Conteudo> conteudos = extratorDeConteudoNasa.extrairConteudos(json);
 
     var fabricaDeFigurinhas = new FabricaDeFigurinhas();
 
