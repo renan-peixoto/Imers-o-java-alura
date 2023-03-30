@@ -35,7 +35,7 @@ public class FabricaDeFigurinhas {
 
     // configurar fonte
 
-    Font fonte = new Font(Font.SANS_SERIF, Font.BOLD, 64);
+    Font fonte = new Font("Impact", Font.BOLD, 64);
     graphics.setFont(fonte);
     graphics.setColor(Color.YELLOW);
 
