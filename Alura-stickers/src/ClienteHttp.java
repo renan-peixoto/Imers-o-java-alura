@@ -17,7 +17,7 @@ public class ClienteHttp {
       String body = response.body();
       return body;
     } catch (IOException | InterruptedException ex) {
-      throw new RuntimeException(ex);
+      throw new ClienteHttpException("Erro ao consular a URL.");
     }
   }
 }
